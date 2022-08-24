@@ -4,11 +4,7 @@ from pathlib import Path
 
 fi = "config.ini"
 config = configparser.ConfigParser()
-# Add the structure to the file we will create
-config.add_section('img')
-config.set('img', 'width')
-config.set('img', 'length')
-# Write the new structure to the new file
+config['img'] = {'width': '45', 'length': '10'}
 with open(fi, 'w') as configfile:
     config.write(configfile)
 

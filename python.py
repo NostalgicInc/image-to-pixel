@@ -5,6 +5,7 @@ from pathlib import Path
 fi = "config.ini"
 config = configparser.ConfigParser()
 # Add the structure to the file we will create
+
 config.add_section('img')
 config.set('img', 'width')
 config.set('img', 'length')
@@ -15,3 +16,7 @@ with open(fi, 'w') as configfile:
 from PIL import Image, ImageEnhance
 length = config.getint('img', 'length')
 width = config.getint('img', 'width')
+newsize = (width, length)
+img = Image.open("yourimage.png")
+img_resized = img.resize(newsize) 
+print(img_resized.size)

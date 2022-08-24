@@ -3,8 +3,8 @@ from operator import length_hint
 from pathlib import Path
 
 fi = "config.ini"
-config = configparser.ConfigParser()
-config['img'] = {'width': '45', 'length': '10'}
+config = configparser.RawConfigParser()
+config.read('config.ini')
 with open(fi, 'w') as configfile:
     config.write(configfile)
 

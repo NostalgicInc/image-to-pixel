@@ -22,11 +22,11 @@ cv2.imwrite('blue_channel.png',img[:,:,0])
 ImageEnhance.Contrast(Image.open("red_channel.png")).enhance(15).save('red_channel.png')
 ImageEnhance.Contrast(Image.open("green_channel.png")).enhance(15).save('green_channel.png')
 ImageEnhance.Contrast(Image.open("blue_channel.png")).enhance(15).save('blue_channel.png')
+
+#removes any other colors except for the dedicated color channel colors
 def convertImage(imageprob):
     img = Image.open(imageprob).convert("RGBA")
- 
     datas = img.getdata()
- 
     newData = []
  
     for item in datas:
@@ -34,17 +34,30 @@ def convertImage(imageprob):
             newData.append((255, 255, 255, 0))
         else:
             newData.append(item)
- 
     img.putdata(newData)
     img.save(imageprob, "PNG")
-    print("Successful")
+
+def colorImage(imageprob):
+    img = Image.open(imageprob).convert("RGBA")
+ 
+    datas = img.getdata()
+    newData = []
+ 
+    for item in datas:
+        if item[3] == 255:
+            newData.append((255, 0, 0, 255))
+        else:
+            newData.append(item)
+    img.putdata(newData)
+    img.save(imageprob, "PNG")
+
 convertImage("red_channel.png")
 convertImage("green_channel.png")
 convertImage("blue_channel.png")
+colorImage("red_channel.png")
+colorImage("green_channel.png")
+colorImage("blue_channel.png")
 #resizes image
-x, y, c = cv2.imread('yourimage.png').shape
-print(x)
-print(y)
 length = config.getint('img', 'length')
 width = config.getint('img', 'width')
 newsize = (width, length) 

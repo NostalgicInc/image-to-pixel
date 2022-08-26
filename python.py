@@ -1,10 +1,7 @@
 import configparser
-from operator import length_hint
 from pathlib import Path
 import cv2
-import numpy as np
-from PIL import Image, ImageEnhance, ImageChops
-import argparse
+from PIL import Image, ImageEnhance
 
 #loads config file
 fi = "config.ini"

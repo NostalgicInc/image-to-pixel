@@ -4,6 +4,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 from PIL import Image, ImageEnhance, ImageChops
+import argparse
 
 #loads config file
 fi = "config.ini"
@@ -37,7 +38,7 @@ def convertImage(imageprob):
     img.putdata(newData)
     img.save(imageprob, "PNG")
 
-def colorImage(imageprob):
+def colorImage(imageprob, red, green, blue):
     img = Image.open(imageprob).convert("RGBA")
  
     datas = img.getdata()
@@ -45,7 +46,7 @@ def colorImage(imageprob):
  
     for item in datas:
         if item[3] == 255:
-            newData.append((255, 0, 0, 255))
+            newData.append((red, green, blue, 255))
         else:
             newData.append(item)
     img.putdata(newData)
@@ -54,11 +55,24 @@ def colorImage(imageprob):
 convertImage("red_channel.png")
 convertImage("green_channel.png")
 convertImage("blue_channel.png")
-colorImage("red_channel.png")
-colorImage("green_channel.png")
-colorImage("blue_channel.png")
+colorImage("red_channel.png", 255, 0, 0)
+colorImage("green_channel.png", 0, 255, 0)
+colorImage("blue_channel.png", 0, 0, 255)
+
 #resizes image
-length = config.getint('img', 'length')
-width = config.getint('img', 'width')
-newsize = (width, length) 
-# img.resize(newsize).save("output.png")
+def resize(imageprob):
+    img = Image.open(imageprob)
+    length = config.getint('img', 'length')
+    width = config.getint('img', 'width')
+    newsize = (width, length) 
+    img.resize(newsize).save(imageprob)
+resize("red_channel.png")
+resize("green_channel.png")
+resize("blue_channel.png")
+
+r = cv2.imread("red_channel.png")
+g = cv2.imread("green_channel.png")
+b = cv2.imread("blue_channel.png")
+final = cv2.add(r, g, b)
+cv2.imshow("cum", final)
+cv2.waitKey(0)
